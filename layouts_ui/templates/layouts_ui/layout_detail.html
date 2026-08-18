@@ -1,0 +1,46 @@
+{% extends "layouts_ui/base.html" %}
+{% block title %}{{ layout.client_company }}{% endblock %}
+{% block content %}
+<h1>{{ layout.client_company }}</h1>
+<a href="{% url 'layouts_ui:layout_edit' layout.id %}">Редактирай</a>
+<a href="{% url 'layouts_ui:layout_print' layout.id %}">Печат (пълна поръчка)</a>
+
+<form method="get" action="{% url 'layouts_ui:layout_print' layout.id %}" class="range-print-form">
+    <label for="range-start">От лист</label>
+    <input type="number" id="range-start" name="start" min="1" max="{{ layout.total_sheet_count }}">
+    <label for="range-end">до лист</label>
+    <input type="number" id="range-end" name="end" min="1" max="{{ layout.total_sheet_count }}">
+    <button type="submit">Печат на диапазон</button>
+</form>
+
+<dl>
+    <dt>Вид / продукт</dt><dd>{{ layout.product_description }}</dd>
+    <dt>Тип</dt><dd>{{ layout.package_type }}</dd>
+    <dt>SAP код</dt><dd>{{ layout.sap_code }}</dd>
+    <dt>№ PO</dt><dd>{{ layout.po_number }}</dd>
+    <dt>Дата</dt><dd>{{ layout.order_date }}</dd>
+    <dt>Количество в кутия</dt><dd>{{ layout.quantity_in_cover }}</dd>
+    <dt>Issue (общо произведени)</dt><dd>{{ layout.issue }}</dd>
+</dl>
+
+<section id="preview">
+    <h2>Преглед</h2>
+    <p>Пълни етикети: {{ layout.full_label_count }}</p>
+    <p>Остатък: {{ layout.remainder }}</p>
+    <p>Общо етикети: {{ layout.total_label_count }}</p>
+    <p>Общо листове (A4): {{ layout.total_sheet_count }}</p>
+</section>
+
+<section id="print-history">
+    <h2>История на печата</h2>
+    {% if print_events %}
+    <ul>
+        {% for event in print_events %}
+        <li class="print-event">Листове {{ event.sheet_start }}–{{ event.sheet_end }} — {{ event.printed_at }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Този макет още не е бил печатан.</p>
+    {% endif %}
+</section>
+{% endblock %}

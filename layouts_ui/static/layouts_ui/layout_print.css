@@ -1,0 +1,209 @@
+@page {
+    size: A4;
+    margin: 10mm;
+}
+
+.print-toolbar {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.sheet {
+    position: relative;
+    width: 190mm;
+    height: 277mm;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(4, 1fr);
+    gap: 4mm;
+    margin: 0 auto 8mm auto;
+    page-break-after: always;
+}
+
+.sheet:last-child {
+    page-break-after: auto;
+}
+
+/* Center vertical divider + between-row crop marks, matching the reference
+   sheet's cutting guides (Etiket produkcia.pdf). */
+.center-divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    border-left: 1px solid #000;
+}
+
+.crop-mark-row {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 0;
+}
+
+.crop-mark-row.r1 { top: 25%; }
+.crop-mark-row.r2 { top: 50%; }
+.crop-mark-row.r3 { top: 75%; }
+
+.crop-mark-row .tick {
+    position: absolute;
+    width: 4mm;
+    height: 0;
+    border-top: 1px solid #000;
+}
+
+.crop-mark-row .tick.left { left: -4mm; }
+.crop-mark-row .tick.right { right: -4mm; }
+
+.crop-mark-row .plus {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 3mm;
+    height: 3mm;
+    transform: translate(-50%, -50%);
+}
+
+.crop-mark-row .plus::before,
+.crop-mark-row .plus::after {
+    content: "";
+    position: absolute;
+    background: #000;
+}
+
+.crop-mark-row .plus::before {
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    transform: translateX(-50%);
+}
+
+.crop-mark-row .plus::after {
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    transform: translateY(-50%);
+}
+
+.label {
+    border: 1px solid #000;
+    box-sizing: border-box;
+    padding: 1.5mm 2mm;
+    display: flex;
+    flex-direction: column;
+    font-size: 8.5pt;
+}
+
+.label-header {
+    text-align: center;
+    padding-bottom: 1mm;
+    border-bottom: 1px solid #000;
+}
+
+.letterhead-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5mm;
+}
+
+.logo-icon {
+    display: inline-block;
+    width: 5mm;
+    height: 5mm;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background:
+        conic-gradient(from 45deg, #888 0deg 90deg, #ccc 90deg 180deg, #888 180deg 270deg, #ccc 270deg 360deg);
+    border: 1px solid #666;
+}
+
+.wordmark {
+    font-size: 12pt;
+    letter-spacing: 0.3pt;
+}
+
+.wordmark-thin {
+    font-weight: 400;
+}
+
+.wordmark-bold {
+    font-weight: 800;
+}
+
+.wordmark-ad {
+    font-size: 7pt;
+    font-weight: 400;
+    vertical-align: sub;
+    margin-left: 0.5mm;
+}
+
+.letterhead-sub {
+    font-size: 6.5pt;
+}
+
+.iso {
+    font-size: 6.5pt;
+    font-weight: bold;
+    text-align: center;
+    padding: 0.5mm 0;
+    border-bottom: 1px solid #000;
+}
+
+.label-lower {
+    display: flex;
+    flex: 1;
+    padding-top: 0.5mm;
+}
+
+.doc-code {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 6pt;
+    font-weight: bold;
+    padding-right: 1mm;
+    border-right: 1px solid #000;
+    margin-right: 1.5mm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.label-fields {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.field-row {
+    display: flex;
+}
+
+.field-row.split {
+    justify-content: space-between;
+    gap: 2mm;
+}
+
+.field-part {
+    display: flex;
+    gap: 1mm;
+    white-space: nowrap;
+}
+
+.field-label {
+    font-weight: bold;
+}
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+}

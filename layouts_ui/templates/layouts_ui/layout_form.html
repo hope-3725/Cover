@@ -1,0 +1,52 @@
+{% extends "layouts_ui/base.html" %}
+{% block title %}{% if mode == "edit" %}Редактиране на макет{% else %}Нов макет{% endif %}{% endblock %}
+{% block content %}
+<h1>{% if mode == "edit" %}Редактиране на макет{% else %}Нов макет{% endif %}</h1>
+
+<form id="layout-form" data-mode="{{ mode }}" data-layout-id="{{ layout_id|default_if_none:'' }}">
+    <div class="field">
+        <label for="client_company">Клиент</label>
+        <input type="text" id="client_company" name="client_company" value="{{ layout.client_company|default_if_none:'' }}" required>
+    </div>
+    <div class="field">
+        <label for="product_description">Вид / продукт</label>
+        <textarea id="product_description" name="product_description" required>{{ layout.product_description|default_if_none:'' }}</textarea>
+    </div>
+    <div class="field">
+        <label for="package_type">Тип</label>
+        <input type="text" id="package_type" name="package_type" value="{{ layout.package_type|default_if_none:'' }}" required>
+    </div>
+    <div class="field">
+        <label for="sap_code">SAP код</label>
+        <input type="text" id="sap_code" name="sap_code" value="{{ layout.sap_code|default_if_none:'' }}" required>
+    </div>
+    <div class="field">
+        <label for="po_number">№ PO</label>
+        <input type="text" id="po_number" name="po_number" value="{{ layout.po_number|default_if_none:'' }}" required>
+    </div>
+    <div class="field">
+        <label for="order_date">Дата</label>
+        <input type="date" id="order_date" name="order_date" value="{{ layout.order_date|default_if_none:'' }}" required>
+    </div>
+    <div class="field">
+        <label for="quantity_in_cover">Количество в кутия</label>
+        <input type="number" id="quantity_in_cover" name="quantity_in_cover" min="1" step="1" value="{{ layout.quantity_in_cover|default_if_none:'' }}" required>
+    </div>
+    <div class="field">
+        <label for="issue">Общо произведени артикули (issue)</label>
+        <input type="number" id="issue" name="issue" min="0" step="1" value="{{ layout.issue|default_if_none:'' }}" required>
+    </div>
+
+    <div id="form-errors" class="errors" aria-live="polite"></div>
+
+    <section id="preview" aria-live="polite">
+        <h2>Преглед</h2>
+        <p>Пълни етикети: <span id="preview-full_label_count">-</span></p>
+        <p>Остатък: <span id="preview-remainder">-</span></p>
+        <p>Общо етикети: <span id="preview-total_label_count">-</span></p>
+        <p>Общо листове (A4): <span id="preview-total_sheet_count">-</span></p>
+    </section>
+
+    <button type="submit">Запази</button>
+</form>
+{% endblock %}

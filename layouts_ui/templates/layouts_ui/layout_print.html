@@ -1,0 +1,67 @@
+{% extends "layouts_ui/base.html" %}
+{% load static %}
+{% block title %}Печат — {{ data.layout.client_company }}{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'layouts_ui/layout_print.css' %}">
+{% endblock %}
+{% block content %}
+<div class="print-toolbar no-print">
+    <button id="print-button" type="button" data-layout-id="{{ layout_id }}" data-start="{{ data.start_sheet }}" data-end="{{ data.end_sheet }}">Печат</button>
+    <a href="{% url 'layouts_ui:layout_detail' layout_id %}">Назад към макета</a>
+    <span>Листове {{ data.start_sheet }}–{{ data.end_sheet }} от {{ data.total_sheet_count }}</span>
+</div>
+
+{% if not data.sheets %}
+<p class="no-print">Няма какво да се разпечата за този макет.</p>
+{% endif %}
+
+{% for sheet in data.sheets %}
+<div class="sheet">
+    <div class="center-divider" aria-hidden="true"></div>
+    <div class="crop-mark-row r1" aria-hidden="true"><span class="tick left"></span><span class="plus"></span><span class="tick right"></span></div>
+    <div class="crop-mark-row r2" aria-hidden="true"><span class="tick left"></span><span class="plus"></span><span class="tick right"></span></div>
+    <div class="crop-mark-row r3" aria-hidden="true"><span class="tick left"></span><span class="plus"></span><span class="tick right"></span></div>
+    {% for quantity in sheet %}
+    <div class="label">
+        <div class="label-header">
+            <div class="letterhead-row">
+                <span class="logo-icon" aria-hidden="true"></span>
+                <span class="wordmark"><span class="wordmark-thin">ЛИТО</span><span class="wordmark-bold">БАЛКАН</span><span class="wordmark-ad">АД</span></span>
+            </div>
+            <div class="letterhead-sub">Печатница, София 1784, бул. „Цариградско шосе“ № 113А</div>
+            <div class="letterhead-sub">E-mail: office@lito-balkan.com</div>
+        </div>
+        <div class="iso">EN ISO 9001:2015</div>
+        <div class="label-lower">
+            <div class="doc-code">ОД 08.05.00.01<br>1/1</div>
+            <div class="label-fields">
+                <div class="field-row">
+                    <span class="field-label">Клиент:</span>
+                    <span class="field-value">{{ data.layout.client_company }}</span>
+                </div>
+                <div class="field-row">
+                    <span class="field-label">Вид:</span>
+                    <span class="field-value">{{ data.layout.product_description|linebreaksbr }}</span>
+                </div>
+                <div class="field-row split">
+                    <span class="field-part"><span class="field-label">Тип:</span> <span class="field-value">{{ data.layout.package_type }}</span></span>
+                    <span class="field-part"><span class="field-label">SAP</span> <span class="field-value">{{ data.layout.sap_code }}</span></span>
+                </div>
+                <div class="field-row split">
+                    <span class="field-part"><span class="field-label">Количество:</span> <span class="field-value">{{ quantity }} бр.</span></span>
+                    <span class="field-part"><span class="field-label">№ PO</span> <span class="field-value">{{ data.layout.po_number }}</span></span>
+                </div>
+                <div class="field-row split">
+                    <span class="field-part"><span class="field-label">Дата:</span> <span class="field-value">{{ data.layout.order_date }}</span></span>
+                    <span class="field-part"><span class="field-label">Подпис:</span> <span class="field-value"></span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endfor %}
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'layouts_ui/layout_print.js' %}"></script>
+{% endblock %}

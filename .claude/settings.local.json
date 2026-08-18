@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(\".venv/Scripts/python.exe\" manage.py test labels -v 1)",
+      "Bash(\".venv/Scripts/python.exe\" manage.py test layouts_ui -v 1)",
+      "Bash(\".venv/Scripts/python.exe\" manage.py test layouts_ui labels -v 1)",
+      "Bash(\".venv/Scripts/python.exe\" manage.py test labels layouts_ui -v 1)"
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{% extends "layouts_ui/base.html" %}
+{% block title %}Макети{% endblock %}
+{% block content %}
+<h1>Макети</h1>
+
+{% if layouts %}
+<table>
+    <thead>
+        <tr>
+            <th>Клиент</th>
+            <th>Вид / продукт</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for layout in layouts %}
+        <tr>
+            <td><a href="{% url 'layouts_ui:layout_detail' layout.id %}">{{ layout.client_company }}</a></td>
+            <td>{{ layout.product_description }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Все още няма запазени макети.</p>
+<p><a href="{% url 'layouts_ui:layout_new' %}">Създайте нов макет</a></p>
+{% endif %}
+{% endblock %}
